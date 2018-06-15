@@ -37,10 +37,20 @@ run cluster-seed
 
 ## Running HCD and Assembly
 
- - ```sbt universal:stage```
- - ```cd sample1-deploy/target/universal/stage/bin```
- - Run container cmd script
- e.g. ```./sample-1-container-cmd-app --standalone --local /Users/poorvagokhale/TMT/spikes/sample1/sample1-deploy/src/main/resources/Sample1AssemblyStandalone.conf```
+### Stage and run
+   ```sbtshell
+    sbt universal:stage
+```
+ ```bash
+ $cd sample1-deploy/target/universal/stage/bin
+ $./sample-1-container-cmd-app --standalone --local /Users/poorvagokhale/TMT/spikes/sample1/sample1-deploy/src/main/resources/Sample1AssemblyStandalone.conf
+ ```
 
- 
+
+### Run with sbt command line
+```bash
+./sample-1-container-cmd-app --standalone --local /Users/poorvagokhale/TMT/spikes/sample1/sample1-deploy/src/main/resources/Sample1AssemblyStandalone.conf
+```
+
+
  
