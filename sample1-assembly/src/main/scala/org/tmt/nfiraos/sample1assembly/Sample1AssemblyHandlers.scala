@@ -44,7 +44,9 @@ class Sample1AssemblyHandlers(
 
   override def onLocationTrackingEvent(trackingEvent: TrackingEvent): Unit = ???
 
-  override def validateCommand(controlCommand: ControlCommand): CommandResponse = ???
+  override def validateCommand(controlCommand: ControlCommand): CommandResponse = {
+    CommandResponse.Accepted(controlCommand.runId)
+  }
 
   override def onSubmit(controlCommand: ControlCommand): Unit = {
     println("Submit command received by assembly")
