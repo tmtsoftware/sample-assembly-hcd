@@ -31,9 +31,12 @@ setenv clusterSeeds 192.168.178.77:7777
 
 run cluster-seed
     - Clone csw-prod
-    - Run sbt universal:stage
-    - ```$cd target/universal/stage/bin```
-    - ```$./csw-cluster-seed --clusterPort=3552```
+```bash
+git checkout bd093ca18
+sbt universal:stage
+cd target/universal/stage/bin
+./csw-cluster-seed --clusterPort=3552
+```
 
 ## Running HCD and Assembly
 
@@ -42,15 +45,8 @@ run cluster-seed
     sbt universal:stage
 ```
  ```bash
- $cd sample1-deploy/target/universal/stage/bin
- $./sample-1-container-cmd-app --standalone --local /Users/poorvagokhale/TMT/spikes/sample1/sample1-deploy/src/main/resources/Sample1AssemblyStandalone.conf
+ cd sample1-deploy/target/universal/stage/bin
+ ./sample-1-container-cmd-app --standalone --local /Users/poorvagokhale/TMT/spikes/sample1/sample1-deploy/src/main/resources/Sample1AssemblyStandalone.conf
  ```
-
-
-### Run with sbt command line
-```bash
-./sample-1-container-cmd-app --standalone --local /Users/poorvagokhale/TMT/spikes/sample1/sample1-deploy/src/main/resources/Sample1AssemblyStandalone.conf
-```
-
 
  
