@@ -49,6 +49,7 @@ class Sample1AssemblyHandlers(
   }
 
   override def onSubmit(controlCommand: ControlCommand): Unit = {
+    Thread.sleep(5000)
     println("Submit command received by assembly")
   }
 

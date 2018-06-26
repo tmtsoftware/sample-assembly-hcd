@@ -32,7 +32,7 @@ setenv clusterSeeds 192.168.178.77:7777
 run cluster-seed
     - Clone csw-prod
 ```bash
-git checkout 7eadb4ffc
+git checkout 01c64e022
 sbt universal:stage
 cd target/universal/stage/bin
 ./csw-cluster-seed --clusterPort=3552
