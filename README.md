@@ -34,6 +34,7 @@ run cluster-seed
 ```bash
 git checkout 6ba398391
 sbt universal:stage
+sbt universal:publishLocal
 cd target/universal/stage/bin
 ./csw-cluster-seed --clusterPort=3552
 ```
