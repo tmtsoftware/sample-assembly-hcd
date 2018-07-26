@@ -32,7 +32,7 @@ setenv clusterSeeds 192.168.178.77:7777
 run cluster-seed
     - Clone csw-prod
 ```bash
-git checkout 6ba398391
+git checkout d392316b7
 sbt universal:stage
 sbt universal:publishLocal
 cd target/universal/stage/bin
