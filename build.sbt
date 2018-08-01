@@ -1,3 +1,8 @@
+inThisBuild(List(
+  version := "0.1.0-SNAPSHOT",
+  resolvers += "jitpack" at "https://jitpack.io",
+))
+
 lazy val `sample1-assembly` = project
   .settings(
     libraryDependencies ++= Dependencies.Sample1Assembly

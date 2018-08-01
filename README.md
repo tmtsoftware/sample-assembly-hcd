@@ -16,28 +16,17 @@ The build is based on sbt and depends on libraries published to bintray from the
 
 See [here](https://www.scala-sbt.org/1.0/docs/Setup.html) for instructions on installing sbt.
 
+
 ## Pre-requisites before running Components
 
-Make sure that the necessary environment variables are set. For example:
-
-* Set the environment variables (Replace IP address and port with your own values):
-```bash
-export clusterSeeds=192.168.178.77:7777
-```
-for bash shell, or 
-```csh
-setenv clusterSeeds 192.168.178.77:7777
-```
-
-run cluster-seed
+run csw-services.sh script
     - Clone csw-prod
-```bash
-git checkout d392316b7
-sbt universal:stage
-sbt universal:publishLocal
-cd target/universal/stage/bin
-./csw-cluster-seed --clusterPort=3552
-```
+    - Run sbt universal:stage
+    - ```$cd target/universal/stage/bin```
+    - ```$./csw-services.sh start -i en0```
+
+Necessary environment variables  - 
+Export clusterSeeds=ip:5552 - Use your own ip
 
 ## Running HCD and Assembly
 

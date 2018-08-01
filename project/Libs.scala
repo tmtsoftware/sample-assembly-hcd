@@ -11,12 +11,16 @@ object Libs {
 }
 
 object CSW {
-  val Version = "0.1-SNAPSHOT"
+  //for testing local changes use following
+  //private val Org     = "org.tmt"
+  //private val Version = "0.1-SNAPSHOT"
+  private val Org     = "com.github.tmtsoftware.csw-prod"
+  private val Version = "0775a353f"
 
-  val `csw-location`      = "org.tmt" %% "csw-location"      % Version
-  val `csw-config-client` = "org.tmt" %% "csw-config-client" % Version
-  val `csw-logging`       = "org.tmt" %% "csw-logging"       % Version
-  val `csw-framework`     = "org.tmt" %% "csw-framework"     % Version
-  val `csw-command`       = "org.tmt" %% "csw-command"       % Version
-  val `csw-messages`      = "org.tmt" %% "csw-messages"      % Version
+  val `csw-location`      = Org %% "csw-location"      % Version
+  val `csw-config-client` = Org %% "csw-config-client" % Version
+  val `csw-logging`       = Org %% "csw-logging"       % Version
+  val `csw-framework`     = Org %% "csw-framework"     % Version
+  val `csw-command`       = Org %% "csw-command"       % Version
+  val `csw-messages`      = Org %% "csw-messages"      % Version
 }
