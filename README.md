@@ -21,6 +21,7 @@ See [here](https://www.scala-sbt.org/1.0/docs/Setup.html) for instructions on in
 
 run csw-services.sh script
     - Clone csw-prod
+    ```git checkout <sha>``` - sha is mentioned in Libs.scala for csw-prod dependencies
     - Run sbt universal:stage
     - ```$cd target/universal/stage/bin```
     - ```$./csw-services.sh start -i en0```
