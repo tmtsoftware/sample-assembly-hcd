@@ -1,17 +1,21 @@
 package org.tmt.nfiraos.sample1assembly
 
 import akka.actor.typed.scaladsl.ActorContext
+import akka.stream.scaladsl.Source
 import csw.framework.CurrentStatePublisher
 import csw.framework.scaladsl.ComponentHandlers
 import csw.messages.TopLevelActorMessage
-import csw.messages.commands.{CommandResponse, ControlCommand}
+import csw.messages.commands.{CommandResponse, ControlCommand, Setup}
 import csw.messages.framework.ComponentInfo
 import csw.messages.location.TrackingEvent
+import csw.messages.params.generics.KeyType.LongKey
+import csw.messages.params.states.{CurrentState, StateName}
 import csw.services.command.CommandResponseManager
 import csw.services.event.api.scaladsl.EventService
 import csw.services.location.scaladsl.LocationService
 import csw.services.logging.scaladsl.LoggerFactory
 
+import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContextExecutor, Future}
 
 /**
@@ -42,25 +46,45 @@ class Sample1AssemblyHandlers(
 
   override def initialize(): Future[Unit] = Future.successful({})
 
-  override def onLocationTrackingEvent(trackingEvent: TrackingEvent): Unit = ???
+  override def onLocationTrackingEvent(trackingEvent: TrackingEvent): Unit = {}
 
   override def validateCommand(controlCommand: ControlCommand): CommandResponse = {
     CommandResponse.Accepted(controlCommand.runId)
   }
 
   override def onSubmit(controlCommand: ControlCommand): Unit = {
-    Thread.sleep(2000)
-    println("Submit command received by assembly")
+
+    controlCommand match {
+      case Setup(id, prefixValue, commandName, _, _) if commandName.name.contains("move") =>
+        Source
+          .tick(0.millis, 1.second, ())
+          .zipWithIndex
+          .map {
+            case (_, index) =>
+              currentStatePublisher.publish(
+                CurrentState(
+                  controlCommand.source,
+                  StateName(prefixValue.prefix),
+                  Set(LongKey.make("longKey").set(index))
+                )
+              )
+          }
+          .take(8)
+
+      case _ =>
+        Thread.sleep(2000)
+        println("Submit command received by assembly")
+    }
   }
 
-  override def onOneway(controlCommand: ControlCommand): Unit = ???
+  override def onOneway(controlCommand: ControlCommand): Unit = {}
 
   override def onShutdown(): Future[Unit] = Future {
     println("Shutdown command received by assembly")
   }
 
-  override def onGoOffline(): Unit = ???
+  override def onGoOffline(): Unit = {}
 
-  override def onGoOnline(): Unit = ???
+  override def onGoOnline(): Unit = {}
 
 }
