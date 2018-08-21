@@ -1,21 +1,24 @@
 package org.tmt.nfiraos.sample1assembly
 
+import akka.Done
 import akka.actor.typed.scaladsl.ActorContext
+import akka.actor.typed.scaladsl.adapter.TypedActorSystemOps
 import akka.stream.scaladsl.Source
+import akka.stream.{ActorMaterializer, Materializer}
 import csw.framework.CurrentStatePublisher
 import csw.framework.scaladsl.ComponentHandlers
 import csw.messages.TopLevelActorMessage
-import csw.messages.commands.{CommandResponse, ControlCommand, Setup}
+import csw.messages.commands.{CommandName, CommandResponse, ControlCommand, Setup}
 import csw.messages.framework.ComponentInfo
 import csw.messages.location.TrackingEvent
-import csw.messages.params.generics.KeyType.LongKey
+import csw.messages.params.generics.KeyType.{IntKey, StringKey}
 import csw.messages.params.states.{CurrentState, StateName}
 import csw.services.command.CommandResponseManager
 import csw.services.event.api.scaladsl.EventService
 import csw.services.location.scaladsl.LocationService
 import csw.services.logging.scaladsl.LoggerFactory
 
-import scala.concurrent.duration.DurationInt
+import scala.concurrent.duration.{DurationInt, FiniteDuration}
 import scala.concurrent.{ExecutionContextExecutor, Future}
 
 /**
@@ -43,6 +46,7 @@ class Sample1AssemblyHandlers(
                               loggerFactory) {
 
   implicit val ec: ExecutionContextExecutor = ctx.executionContext
+  implicit val mat: Materializer            = ActorMaterializer()(ctx.system.toUntyped)
 
   override def initialize(): Future[Unit] = Future.successful({})
 
@@ -52,32 +56,35 @@ class Sample1AssemblyHandlers(
     CommandResponse.Accepted(controlCommand.runId)
   }
 
-  override def onSubmit(controlCommand: ControlCommand): Unit = {
+  override def onSubmit(controlCommand: ControlCommand): Unit = {}
 
+  override def onOneway(controlCommand: ControlCommand): Unit = {
     controlCommand match {
-      case Setup(id, prefixValue, commandName, _, _) if commandName.name.contains("move") =>
-        Source
-          .tick(0.millis, 1.second, ())
-          .zipWithIndex
-          .map {
-            case (_, index) =>
-              currentStatePublisher.publish(
-                CurrentState(
-                  controlCommand.source,
-                  StateName(prefixValue.prefix),
-                  Set(LongKey.make("longKey").set(index))
-                )
-              )
-          }
-          .take(8)
-
-      case _ =>
-        Thread.sleep(2000)
-        println("Submit command received by assembly")
+      case s @ Setup(_, _, CommandName("filter-move"), _, _)    => delegateToHcd("filter", 1.second, s)
+      case s @ Setup(_, _, CommandName("dispenser-move"), _, _) => delegateToHcd("dispenser", 2500.millis, s)
+      case _                                                    => println("Submit command received by assembly")
     }
   }
 
-  override def onOneway(controlCommand: ControlCommand): Unit = {}
+  def delegateToHcd(hcdName: String, delay: FiniteDuration, setup: Setup): Future[Done] = {
+    val key       = IntKey.make(s"$hcdName-position")
+    val nameParam = setup.get(StringKey.make("name"))
+    Source
+      .tick(0.millis, delay, ())
+      .zipWithIndex
+      .map {
+        case (_, index) =>
+          currentStatePublisher.publish(
+            CurrentState(
+              componentInfo.prefix,
+              StateName(hcdName),
+              Set(key.set(index.toInt)) ++ nameParam
+            )
+          )
+      }
+      .take(20)
+      .runForeach(_ => ())
+  }
 
   override def onShutdown(): Future[Unit] = Future {
     println("Shutdown command received by assembly")
