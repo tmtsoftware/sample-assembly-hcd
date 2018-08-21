@@ -37,13 +37,15 @@ class Sample1AssemblyHandlers(
     locationService: LocationService,
     eventService: EventService,
     loggerFactory: LoggerFactory
-) extends ComponentHandlers(ctx,
-                              componentInfo,
-                              commandResponseManager,
-                              currentStatePublisher,
-                              locationService,
-                              eventService,
-                              loggerFactory) {
+) extends ComponentHandlers(
+      ctx,
+      componentInfo,
+      commandResponseManager,
+      currentStatePublisher,
+      locationService,
+      eventService,
+      loggerFactory
+    ) {
 
   implicit val ec: ExecutionContextExecutor = ctx.executionContext
   implicit val mat: Materializer            = ActorMaterializer()(ctx.system.toUntyped)
@@ -56,13 +58,16 @@ class Sample1AssemblyHandlers(
     CommandResponse.Accepted(controlCommand.runId)
   }
 
-  override def onSubmit(controlCommand: ControlCommand): Unit = {}
+  override def onSubmit(controlCommand: ControlCommand): Unit = {
+    Thread.sleep(2000)
+    println("Submit command received by assembly")
+  }
 
   override def onOneway(controlCommand: ControlCommand): Unit = {
     controlCommand match {
       case s @ Setup(_, _, CommandName("filter-move"), _, _)    => delegateToHcd("filter", 1.second, s)
-      case s @ Setup(_, _, CommandName("dispenser-move"), _, _) => delegateToHcd("dispenser", 2500.millis, s)
-      case _                                                    => println("Submit command received by assembly")
+      case s @ Setup(_, _, CommandName("disperser-move"), _, _) => delegateToHcd("disperser", 2500.millis, s)
+      case _                                                    => println("OneWay command received by assembly")
     }
   }
 
