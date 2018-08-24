@@ -7,6 +7,7 @@ import csw.messages.TopLevelActorMessage
 import csw.messages.commands.{CommandResponse, ControlCommand}
 import csw.messages.framework.ComponentInfo
 import csw.messages.location.TrackingEvent
+import csw.services.alarm.api.scaladsl.AlarmService
 import csw.services.command.CommandResponseManager
 import csw.services.event.api.scaladsl.EventService
 import csw.services.location.scaladsl.LocationService
@@ -29,6 +30,7 @@ class Sample1HcdHandlers(
     currentStatePublisher: CurrentStatePublisher,
     locationService: LocationService,
     eventService: EventService,
+    alarmService: AlarmService,
     loggerFactory: LoggerFactory
 ) extends ComponentHandlers(ctx,
                               componentInfo,
@@ -36,6 +38,7 @@ class Sample1HcdHandlers(
                               currentStatePublisher,
                               locationService,
                               eventService,
+                              alarmService,
                               loggerFactory) {
 
   implicit val ec: ExecutionContextExecutor = ctx.executionContext

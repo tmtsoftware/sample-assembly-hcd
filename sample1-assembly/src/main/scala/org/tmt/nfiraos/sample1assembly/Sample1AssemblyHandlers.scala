@@ -13,6 +13,7 @@ import csw.messages.framework.ComponentInfo
 import csw.messages.location.TrackingEvent
 import csw.messages.params.generics.KeyType.{IntKey, StringKey}
 import csw.messages.params.states.{CurrentState, StateName}
+import csw.services.alarm.api.scaladsl.AlarmService
 import csw.services.command.CommandResponseManager
 import csw.services.event.api.scaladsl.EventService
 import csw.services.location.scaladsl.LocationService
@@ -36,6 +37,7 @@ class Sample1AssemblyHandlers(
     currentStatePublisher: CurrentStatePublisher,
     locationService: LocationService,
     eventService: EventService,
+    alarmService: AlarmService,
     loggerFactory: LoggerFactory
 ) extends ComponentHandlers(
       ctx,
@@ -44,6 +46,7 @@ class Sample1AssemblyHandlers(
       currentStatePublisher,
       locationService,
       eventService,
+      alarmService,
       loggerFactory
     ) {
 
