@@ -5,19 +5,13 @@ import akka.actor.typed.scaladsl.ActorContext
 import akka.actor.typed.scaladsl.adapter.TypedActorSystemOps
 import akka.stream.scaladsl.Source
 import akka.stream.{ActorMaterializer, Materializer}
-import csw.framework.CurrentStatePublisher
+import csw.framework.models.CswServices
 import csw.framework.scaladsl.ComponentHandlers
 import csw.messages.TopLevelActorMessage
 import csw.messages.commands.{CommandName, CommandResponse, ControlCommand, Setup}
-import csw.messages.framework.ComponentInfo
 import csw.messages.location.TrackingEvent
 import csw.messages.params.generics.KeyType.{IntKey, StringKey}
 import csw.messages.params.states.{CurrentState, StateName}
-import csw.services.alarm.api.scaladsl.AlarmService
-import csw.services.command.CommandResponseManager
-import csw.services.event.api.scaladsl.EventService
-import csw.services.location.scaladsl.LocationService
-import csw.services.logging.scaladsl.LoggerFactory
 
 import scala.concurrent.duration.{DurationInt, FiniteDuration}
 import scala.concurrent.{ExecutionContextExecutor, Future}
@@ -32,23 +26,8 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
  */
 class Sample1AssemblyHandlers(
     ctx: ActorContext[TopLevelActorMessage],
-    componentInfo: ComponentInfo,
-    commandResponseManager: CommandResponseManager,
-    currentStatePublisher: CurrentStatePublisher,
-    locationService: LocationService,
-    eventService: EventService,
-    alarmService: AlarmService,
-    loggerFactory: LoggerFactory
-) extends ComponentHandlers(
-      ctx,
-      componentInfo,
-      commandResponseManager,
-      currentStatePublisher,
-      locationService,
-      eventService,
-      alarmService,
-      loggerFactory
-    ) {
+    cswServices: CswServices
+) extends ComponentHandlers(ctx, cswServices) {
 
   implicit val ec: ExecutionContextExecutor = ctx.executionContext
   implicit val mat: Materializer            = ActorMaterializer()(ctx.system.toUntyped)
@@ -82,9 +61,9 @@ class Sample1AssemblyHandlers(
       .zipWithIndex
       .map {
         case (_, index) =>
-          currentStatePublisher.publish(
+          cswServices.currentStatePublisher.publish(
             CurrentState(
-              componentInfo.prefix,
+              cswServices.componentInfo.prefix,
               StateName(hcdName),
               Set(key.set(index.toInt)) ++ nameParam
             )
