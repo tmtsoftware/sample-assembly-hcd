@@ -5,13 +5,13 @@ import akka.actor.typed.scaladsl.ActorContext
 import akka.actor.typed.scaladsl.adapter.TypedActorSystemOps
 import akka.stream.scaladsl.Source
 import akka.stream.{ActorMaterializer, Materializer}
-import csw.framework.models.CswServices
+import csw.command.messages.TopLevelActorMessage
+import csw.framework.models.CswContext
 import csw.framework.scaladsl.ComponentHandlers
-import csw.messages.TopLevelActorMessage
 import csw.messages.commands.{CommandName, CommandResponse, ControlCommand, Setup}
-import csw.messages.location.TrackingEvent
 import csw.messages.params.generics.KeyType.{IntKey, StringKey}
 import csw.messages.params.states.{CurrentState, StateName}
+import csw.services.location.api.models.TrackingEvent
 
 import scala.concurrent.duration.{DurationInt, FiniteDuration}
 import scala.concurrent.{ExecutionContextExecutor, Future}
@@ -26,8 +26,11 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
  */
 class Sample1AssemblyHandlers(
     ctx: ActorContext[TopLevelActorMessage],
-    cswServices: CswServices
-) extends ComponentHandlers(ctx, cswServices) {
+    cswContext: CswContext
+) extends ComponentHandlers(
+      ctx,
+      cswContext
+    ) {
 
   implicit val ec: ExecutionContextExecutor = ctx.executionContext
   implicit val mat: Materializer            = ActorMaterializer()(ctx.system.toUntyped)
@@ -61,9 +64,9 @@ class Sample1AssemblyHandlers(
       .zipWithIndex
       .map {
         case (_, index) =>
-          cswServices.currentStatePublisher.publish(
+          cswContext.currentStatePublisher.publish(
             CurrentState(
-              cswServices.componentInfo.prefix,
+              cswContext.componentInfo.prefix,
               StateName(hcdName),
               Set(key.set(index.toInt)) ++ nameParam
             )

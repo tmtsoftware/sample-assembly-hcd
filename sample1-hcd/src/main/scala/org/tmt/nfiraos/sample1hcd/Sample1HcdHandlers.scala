@@ -1,11 +1,11 @@
 package org.tmt.nfiraos.sample1hcd
 
 import akka.actor.typed.scaladsl.ActorContext
-import csw.framework.models.CswServices
+import csw.command.messages.TopLevelActorMessage
+import csw.framework.models.CswContext
 import csw.framework.scaladsl.ComponentHandlers
-import csw.messages.TopLevelActorMessage
 import csw.messages.commands.{CommandResponse, ControlCommand}
-import csw.messages.location.TrackingEvent
+import csw.services.location.api.models.TrackingEvent
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 
@@ -19,8 +19,8 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
  */
 class Sample1HcdHandlers(
     ctx: ActorContext[TopLevelActorMessage],
-    cswServices: CswServices
-) extends ComponentHandlers(ctx, cswServices) {
+    cswContext: CswContext
+) extends ComponentHandlers(ctx, cswContext) {
 
   implicit val ec: ExecutionContextExecutor = ctx.executionContext
 
