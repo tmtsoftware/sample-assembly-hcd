@@ -4,8 +4,8 @@ import akka.actor.typed.scaladsl.ActorContext
 import csw.command.messages.TopLevelActorMessage
 import csw.framework.models.CswContext
 import csw.framework.scaladsl.ComponentHandlers
-import csw.messages.commands.{CommandResponse, ControlCommand}
-import csw.services.location.api.models.TrackingEvent
+import csw.location.api.models.TrackingEvent
+import csw.params.commands.{CommandResponse, ControlCommand}
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 

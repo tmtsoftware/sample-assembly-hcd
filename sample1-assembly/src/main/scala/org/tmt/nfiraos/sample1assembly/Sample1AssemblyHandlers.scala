@@ -8,10 +8,10 @@ import akka.stream.{ActorMaterializer, Materializer}
 import csw.command.messages.TopLevelActorMessage
 import csw.framework.models.CswContext
 import csw.framework.scaladsl.ComponentHandlers
-import csw.messages.commands.{CommandName, CommandResponse, ControlCommand, Setup}
-import csw.messages.params.generics.KeyType.{IntKey, StringKey}
-import csw.messages.params.states.{CurrentState, StateName}
-import csw.services.location.api.models.TrackingEvent
+import csw.location.api.models.TrackingEvent
+import csw.params.commands.{CommandName, CommandResponse, ControlCommand, Setup}
+import csw.params.core.generics.KeyType.{IntKey, StringKey}
+import csw.params.core.states.{CurrentState, StateName}
 
 import scala.concurrent.duration.{DurationInt, FiniteDuration}
 import scala.concurrent.{ExecutionContextExecutor, Future}

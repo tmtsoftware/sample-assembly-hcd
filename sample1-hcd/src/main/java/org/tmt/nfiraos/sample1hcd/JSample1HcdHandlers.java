@@ -4,15 +4,15 @@ import akka.actor.typed.javadsl.ActorContext;
 import csw.command.CommandResponseManager;
 import csw.command.messages.TopLevelActorMessage;
 import csw.command.models.framework.ComponentInfo;
+import csw.event.api.javadsl.IEventService;
 import csw.framework.CurrentStatePublisher;
 import csw.framework.javadsl.JComponentHandlers;
 import csw.framework.models.JCswContext;
-import csw.messages.commands.CommandResponse;
-import csw.messages.commands.ControlCommand;
-import csw.services.event.api.javadsl.IEventService;
-import csw.services.location.api.javadsl.ILocationService;
-import csw.services.location.api.models.TrackingEvent;
-import csw.services.logging.javadsl.ILogger;
+import csw.location.api.javadsl.ILocationService;
+import csw.location.api.models.TrackingEvent;
+import csw.logging.javadsl.ILogger;
+import csw.params.commands.CommandResponse;
+import csw.params.commands.ControlCommand;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -62,10 +62,6 @@ public class JSample1HcdHandlers extends JComponentHandlers {
         });
     }
 
-    @Override
-    public void onLocationTrackingEvent(TrackingEvent trackingEvent) {
-
-    }
 
     @Override
     public CommandResponse validateCommand(ControlCommand controlCommand) {
@@ -79,6 +75,11 @@ public class JSample1HcdHandlers extends JComponentHandlers {
 
     @Override
     public void onOneway(ControlCommand controlCommand) {
+
+    }
+
+    @Override
+    public void onLocationTrackingEvent(TrackingEvent trackingEvent) {
 
     }
 
