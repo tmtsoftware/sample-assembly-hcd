@@ -5,7 +5,7 @@ object Dependencies {
   val Sample1Assembly = Seq(
     CSW.`csw-framework`,
     CSW.`csw-command`,
-    CSW.`csw-location`,
+    CSW.`csw-location-client`,
     CSW.`csw-logging`,
     Libs.`scalatest` % Test,
     Libs.`junit` % Test,
@@ -15,7 +15,7 @@ object Dependencies {
   val Sample1Hcd = Seq(
     CSW.`csw-framework`,
     CSW.`csw-command`,
-    CSW.`csw-location`,
+    CSW.`csw-location-client`,
     CSW.`csw-logging`,
     Libs.`scalatest` % Test,
     Libs.`junit` % Test,
