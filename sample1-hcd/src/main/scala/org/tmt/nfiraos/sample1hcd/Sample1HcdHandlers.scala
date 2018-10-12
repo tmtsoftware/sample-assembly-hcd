@@ -5,7 +5,9 @@ import csw.command.messages.TopLevelActorMessage
 import csw.framework.models.CswContext
 import csw.framework.scaladsl.ComponentHandlers
 import csw.location.api.models.TrackingEvent
+import csw.params.commands.CommandResponse.{Completed, SubmitResponse, ValidationResponse}
 import csw.params.commands.{CommandResponse, ControlCommand}
+import csw.params.core.models.Id
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 
@@ -28,10 +30,11 @@ class Sample1HcdHandlers(
 
   override def onLocationTrackingEvent(trackingEvent: TrackingEvent): Unit = ???
 
-  override def validateCommand(controlCommand: ControlCommand): CommandResponse = ???
+  override def validateCommand(controlCommand: ControlCommand): ValidationResponse = ???
 
-  override def onSubmit(controlCommand: ControlCommand): Unit = {
+  override def onSubmit(controlCommand: ControlCommand): SubmitResponse = {
     println("Submit command received by hcd")
+    Completed(Id("dummy id"))
   }
 
   override def onOneway(controlCommand: ControlCommand): Unit = ???

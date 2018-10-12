@@ -64,13 +64,13 @@ public class JSample1HcdHandlers extends JComponentHandlers {
 
 
     @Override
-    public CommandResponse validateCommand(ControlCommand controlCommand) {
+    public CommandResponse.ValidationResponse validateCommand(ControlCommand controlCommand) {
         return null;
     }
 
     @Override
-    public void onSubmit(ControlCommand controlCommand) {
-
+    public CommandResponse.SubmitResponse onSubmit(ControlCommand controlCommand) {
+        return null;
     }
 
     @Override

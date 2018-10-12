@@ -63,8 +63,8 @@ public class JSample1AssemblyHandlers extends JComponentHandlers {
     }
 
     @Override
-    public void onSubmit(ControlCommand controlCommand) {
-
+    public CommandResponse.SubmitResponse onSubmit(ControlCommand controlCommand) {
+        return null;
     }
 
     @Override
@@ -78,7 +78,7 @@ public class JSample1AssemblyHandlers extends JComponentHandlers {
     }
 
     @Override
-    public CommandResponse validateCommand(ControlCommand controlCommand) {
+    public CommandResponse.ValidationResponse validateCommand(ControlCommand controlCommand) {
         return null;
     }
 

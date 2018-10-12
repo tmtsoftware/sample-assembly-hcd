@@ -9,6 +9,7 @@ import csw.command.messages.TopLevelActorMessage
 import csw.framework.models.CswContext
 import csw.framework.scaladsl.ComponentHandlers
 import csw.location.api.models.TrackingEvent
+import csw.params.commands.CommandResponse.{Completed, SubmitResponse, ValidationResponse}
 import csw.params.commands.{CommandName, CommandResponse, ControlCommand, Setup}
 import csw.params.core.generics.KeyType.{IntKey, StringKey}
 import csw.params.core.states.{CurrentState, StateName}
@@ -39,13 +40,14 @@ class Sample1AssemblyHandlers(
 
   override def onLocationTrackingEvent(trackingEvent: TrackingEvent): Unit = {}
 
-  override def validateCommand(controlCommand: ControlCommand): CommandResponse = {
+  override def validateCommand(controlCommand: ControlCommand): ValidationResponse = {
     CommandResponse.Accepted(controlCommand.runId)
   }
 
-  override def onSubmit(controlCommand: ControlCommand): Unit = {
+  override def onSubmit(controlCommand: ControlCommand): SubmitResponse = {
     Thread.sleep(10000)
     println("Submit command received by assembly")
+    Completed(controlCommand.runId)
   }
 
   override def onOneway(controlCommand: ControlCommand): Unit = {
