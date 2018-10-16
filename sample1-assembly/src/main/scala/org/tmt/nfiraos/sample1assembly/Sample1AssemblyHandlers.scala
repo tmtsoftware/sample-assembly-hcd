@@ -5,11 +5,11 @@ import akka.actor.typed.scaladsl.ActorContext
 import akka.actor.typed.scaladsl.adapter.TypedActorSystemOps
 import akka.stream.scaladsl.Source
 import akka.stream.{ActorMaterializer, Materializer}
-import csw.command.messages.TopLevelActorMessage
+import csw.command.client.internal.messages.TopLevelActorMessage
 import csw.framework.models.CswContext
 import csw.framework.scaladsl.ComponentHandlers
 import csw.location.api.models.TrackingEvent
-import csw.params.commands.CommandResponse.{Completed, SubmitResponse, ValidationResponse}
+import csw.params.commands.CommandResponse.{Completed, SubmitResponse, ValidateCommandResponse}
 import csw.params.commands.{CommandName, CommandResponse, ControlCommand, Setup}
 import csw.params.core.generics.KeyType.{IntKey, StringKey}
 import csw.params.core.states.{CurrentState, StateName}
@@ -40,7 +40,7 @@ class Sample1AssemblyHandlers(
 
   override def onLocationTrackingEvent(trackingEvent: TrackingEvent): Unit = {}
 
-  override def validateCommand(controlCommand: ControlCommand): ValidationResponse = {
+  override def validateCommand(controlCommand: ControlCommand): ValidateCommandResponse = {
     CommandResponse.Accepted(controlCommand.runId)
   }
 

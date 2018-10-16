@@ -1,9 +1,9 @@
 package org.tmt.nfiraos.sample1hcd;
 
 import akka.actor.typed.javadsl.ActorContext;
-import csw.command.CommandResponseManager;
-import csw.command.messages.TopLevelActorMessage;
-import csw.command.models.framework.ComponentInfo;
+import csw.command.client.CommandResponseManager;
+import csw.command.client.internal.messages.TopLevelActorMessage;
+import csw.command.client.internal.models.framework.ComponentInfo;
 import csw.event.api.javadsl.IEventService;
 import csw.framework.CurrentStatePublisher;
 import csw.framework.javadsl.JComponentHandlers;
@@ -64,7 +64,7 @@ public class JSample1HcdHandlers extends JComponentHandlers {
 
 
     @Override
-    public CommandResponse.ValidationResponse validateCommand(ControlCommand controlCommand) {
+    public CommandResponse.ValidateCommandResponse validateCommand(ControlCommand controlCommand) {
         return null;
     }
 
