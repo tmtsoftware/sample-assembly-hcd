@@ -2,8 +2,8 @@ package org.tmt.nfiraos.sample1assembly;
 
 import akka.actor.typed.javadsl.ActorContext;
 import csw.command.client.CommandResponseManager;
-import csw.command.client.internal.messages.TopLevelActorMessage;
-import csw.command.client.internal.models.framework.ComponentInfo;
+import csw.command.client.messages.TopLevelActorMessage;
+import csw.command.client.models.framework.ComponentInfo;
 import csw.event.api.javadsl.IEventService;
 import csw.framework.CurrentStatePublisher;
 import csw.framework.javadsl.JComponentHandlers;

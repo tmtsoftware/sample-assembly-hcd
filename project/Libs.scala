@@ -14,7 +14,7 @@ object CSW {
   //for testing local changes use following
 //  private val Org     = "org.tmt"
 //  private val Version = "0.1-SNAPSHOT"
-  private val Org     = "com.github.tmtsoftware.csw-prod"
+  private val Org     = "com.github.tmtsoftware.csw"
   private val Version = "f3b5a2e30"
 
   val `csw-location-client` = Org %% "csw-location-client" % Version
