@@ -9,9 +9,11 @@ import csw.command.client.messages.TopLevelActorMessage
 import csw.framework.models.CswContext
 import csw.framework.scaladsl.ComponentHandlers
 import csw.location.api.models.TrackingEvent
-import csw.params.commands.CommandResponse.{Completed, SubmitResponse, ValidateCommandResponse}
-import csw.params.commands.{CommandName, CommandResponse, ControlCommand, Setup}
+import csw.params.commands.CommandResponse.{CompletedWithResult, SubmitResponse, ValidateCommandResponse}
+import csw.params.commands._
+import csw.params.core.generics.{Key, KeyType}
 import csw.params.core.generics.KeyType.{IntKey, StringKey}
+import csw.params.core.models.Prefix
 import csw.params.core.states.{CurrentState, StateName}
 
 import scala.concurrent.duration.{DurationInt, FiniteDuration}
@@ -47,7 +49,13 @@ class Sample1AssemblyHandlers(
   override def onSubmit(controlCommand: ControlCommand): SubmitResponse = {
     Thread.sleep(2000)
     println("Submit command received by assembly")
-    Completed(controlCommand.runId)
+    val s1: String = "encoder"
+    val s2: String = "filter"
+
+    val k1: Key[Int] = KeyType.IntKey.make(s1)
+    val k2: Key[Int] = KeyType.IntKey.make(s2)
+
+    CompletedWithResult(controlCommand.runId, Result.apply(Prefix("wfos.prog.cloudcover"), Set(k1.set(1), k2.set(2))))
   }
 
   override def onOneway(controlCommand: ControlCommand): Unit = {
