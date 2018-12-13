@@ -1,7 +1,7 @@
 import sbt._
 
 object Libs {
-  val ScalaVersion = "2.12.6"
+  val ScalaVersion = "2.12.8"
 
   val `scalatest`       = "org.scalatest"          %% "scalatest"      % "3.0.5"  //Apache License 2.0
   val `scala-async`     = "org.scala-lang.modules" %% "scala-async"    % "0.9.7"  //BSD 3-clause "New" or "Revised" License
@@ -15,7 +15,7 @@ object CSW {
 //  private val Org     = "org.tmt"
 //  private val Version = "0.1-SNAPSHOT"
   private val Org     = "com.github.tmtsoftware.csw"
-  private val Version = "ef09b11"
+  private val Version = "85f6183"
 
   val `csw-location-client` = Org %% "csw-location-client" % Version
   val `csw-command-client`  = Org %% "csw-command-client"  % Version
