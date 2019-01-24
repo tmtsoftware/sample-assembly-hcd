@@ -10,7 +10,7 @@ import csw.framework.javadsl.JComponentHandlers;
 import csw.framework.models.JCswContext;
 import csw.location.api.javadsl.ILocationService;
 import csw.location.api.models.TrackingEvent;
-import csw.logging.javadsl.ILogger;
+import csw.logging.api.javadsl.ILogger;
 import csw.params.commands.CommandResponse;
 import csw.params.commands.ControlCommand;
 
